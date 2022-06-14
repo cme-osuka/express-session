@@ -45,13 +45,11 @@ app.post("/login", (req, res) => {
 });
 
 app.post("/test", (req, res) => {
-  req.session.reload(() => {
-    if (!req.session.authenticated) {
-      res.json({ message: "not authenticated" });
-    } else {
-      res.json({ message: "authenticated", session_id: req.session.id });
-    }
-  });
+  if (!req.session.authenticated) {
+    res.json({ message: "not authenticated" });
+  } else {
+    res.json({ message: "authenticated", session_id: req.session.id });
+  }
 });
 
 app.post("/logout", (req, res) => {
