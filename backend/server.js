@@ -8,13 +8,14 @@ const PASSWORD = "potato";
 
 const app = express();
 
-app.use(cors({
-  credentials: true,
-  origin: "http://localhost:3000"
-}));
+app.use(
+  cors({
+    credentials: true,
+    origin: "http://localhost:3000",
+  })
+);
 // Inbyggda middlewares för att läsa och tolka json och formdata
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
 // 1000 ms = 1 sekund, 60 sekunder = 1 minut, 60 minuter = 1 timme, 24 timmar = en dag
 const oneDay = 1000 * 60 * 60 * 24;
@@ -36,11 +37,8 @@ app.use(
 app.post("/login", (req, res) => {
   if (req.body.username === USERNAME && req.body.password === PASSWORD) {
     req.session.authenticated = true;
-    console.log(req.session);
-    req.session.save((err) => {
-      console.log(err);
-      res.json({ message: "success" });
-    });
+    req.session.save();
+    res.json({ message: "success" });
   } else {
     res.json({ message: "failed" });
   }
